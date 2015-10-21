@@ -1,0 +1,27 @@
+web:
+  build: .
+  links:
+    - redis:redis
+    - rabbitmq:rabbitmq
+  ports:
+    - 5000:5000
+  environment:
+    - RABBITMQ_HOST=rabbitmq
+    - RABBITMQ_PORT=5672
+    - RABBITMQ_USERNAME=voting-machine
+    - RABBITMQ_PASSWORD=secure
+    - RABBITMQ_EXCHANGE=votes
+    - REDIS_HOST=redis
+    - REDIS_PORT=6379
+rabbitmq:
+  image: rabbitmq:management
+  ports:
+    - 15672:15672
+    - 5672:5672
+  environment:
+    - RABBITMQ_DEFAULT_USER=voting-machine
+    - RABBITMQ_DEFAULT_PASS=secure
+redis:
+  image: redis
+  ports:
+    - 6379:6379
